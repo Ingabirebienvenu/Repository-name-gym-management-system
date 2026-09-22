@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #f1f5f9;
+}
+
+.page-content {
+  min-height: calc(100vh - 64px);
+}
