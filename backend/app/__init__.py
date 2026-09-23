@@ -14,6 +14,7 @@ def create_app():
     from app.routes.attendance_routes import attendance_bp
     from app.routes.notification_routes import notification_bp
     from app.routes.booking_routes import booking_bp
+    from app.routes.auth_routes import auth_bp
 
     app.register_blueprint(member_bp)
     app.register_blueprint(trainer_bp)
@@ -22,6 +23,7 @@ def create_app():
     app.register_blueprint(attendance_bp)
     app.register_blueprint(notification_bp)
     app.register_blueprint(booking_bp)
+    app.register_blueprint(auth_bp)
 
     @app.route('/')
     def index():
