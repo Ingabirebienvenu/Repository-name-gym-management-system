@@ -97,3 +97,42 @@
   color: #64748b;
   margin-bottom: 1.5rem;
 }
+
+
+.duration-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+
+.duration-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.6rem 0.8rem;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.duration-btn:hover {
+  border-color: #93c5fd;
+}
+
+.duration-btn.active {
+  border-color: #3b82f6;
+  background-color: #eff6ff;
+}
+
+.duration-label {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.duration-price {
+  color: #64748b;
+  font-size: 0.8rem;
+}

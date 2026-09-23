@@ -5,6 +5,7 @@ import {
   getClasses, createBooking, cancelBooking
 } from '../services/api';
 import './MemberDashboard.css';
+import PaymentForm from '../components/payments/PaymentForm';
 
 function MemberDashboard() {
   const { user } = useAuth();
@@ -14,6 +15,7 @@ function MemberDashboard() {
   const [availableClasses, setAvailableClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
 
   async function loadData() {
     try {

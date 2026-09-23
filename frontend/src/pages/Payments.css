@@ -71,3 +71,34 @@
 .badge-airtel { background-color: #fee2e2; color: #dc2626; }
 .badge-bank { background-color: #dbeafe; color: #1d4ed8; }
 .badge-cash { background-color: #dcfce7; color: #16a34a; }
+
+
+.pending-pill {
+  background-color: #fef3c7;
+  color: #b45309;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.8rem;
+}
+
+.row-pending {
+  background-color: #fffbeb;
+}
+
+.status-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.status-paid { background-color: #dcfce7; color: #16a34a; }
+.status-pending { background-color: #fef3c7; color: #b45309; }
+.status-failed { background-color: #fee2e2; color: #dc2626; }
+
+.btn-small {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}

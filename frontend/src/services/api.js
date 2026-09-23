@@ -42,6 +42,11 @@ export const getPaymentsByMember = (memberId) => api.get(`/payments/member/${mem
 export const createPayment = (data) => api.post('/payments', data);
 export const updatePayment = (id, data) => api.put(`/payments/${id}`, data);
 export const deletePayment = (id) => api.delete(`/payments/${id}`);
+//////////
+export const submitPayment = (data) => api.post('/payments/submit', data);
+export const validatePayment = (id) => api.put(`/payments/${id}/validate`);
+export const rejectPayment = (id) => api.put(`/payments/${id}/reject`);
+export const getPendingPaymentsCount = () => api.get('/payments/pending-count');
 
 // ---------- ATTENDANCE ----------
 export const getAttendance = () => api.get('/attendance');

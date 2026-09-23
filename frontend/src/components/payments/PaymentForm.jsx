@@ -1,56 +1,44 @@
-import { useState, useEffect } from 'react';
-import { createPayment, getMembers } from '../../services/api';
+import { useState } from 'react';
+import { submitPayment } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
 import { validatePhoneNumber, validateAccountNumber, RWANDA_BANKS } from '../../utils/paymentValidation';
 import './PaymentForm.css';
 
 const PAYMENT_METHODS = ['MTN Mobile Money', 'Airtel Money', 'Bank Transfer', 'Cash'];
+const DURATIONS = [
+  { label: '1 Month', months: 1, price: 15000 },
+  { label: '3 Months', months: 3, price: 40000 },
+  { label: '6 Months', months: 6, price: 75000 },
+  { label: '12 Months', months: 12, price: 140000 },
+];
 
 function PaymentForm({ onClose }) {
-  const [members, setMembers] = useState([]);
+  const { user } = useAuth();
   const [step, setStep] = useState('form'); // 'form' | 'processing' | 'success'
   const [error, setError] = useState('');
 
   const [formData, setFormData] = useState({
-    member_id: '',
-    amount: '',
+    duration_index: 0,
     payment_method: 'MTN Mobile Money',
-    for_period: '',
     phone: '',
     bank_name: RWANDA_BANKS[0],
     account_number: '',
   });
-
-  useEffect(() => {
-    async function loadMembers() {
-      try {
-        const res = await getMembers();
-        setMembers(res.data);
-      } catch (err) {
-        console.error('Failed to load members:', err);
-      }
-    }
-    loadMembers();
-  }, []);
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
   function validate() {
-    if (!formData.member_id) return 'Please select a member';
-    if (!formData.amount || Number(formData.amount) <= 0) return 'Please enter a valid amount';
-
     if (formData.payment_method === 'MTN Mobile Money' || formData.payment_method === 'Airtel Money') {
       const phoneError = validatePhoneNumber(formData.phone, formData.payment_method);
       if (phoneError) return phoneError;
     }
-
     if (formData.payment_method === 'Bank Transfer') {
       if (!formData.bank_name) return 'Please select a bank';
       const accountError = validateAccountNumber(formData.account_number);
       if (accountError) return accountError;
     }
-
     return null;
   }
 
@@ -65,22 +53,24 @@ function PaymentForm({ onClose }) {
     }
 
     setStep('processing');
+    const selectedDuration = DURATIONS[formData.duration_index];
 
-    // Simulate a payment gateway processing delay
     setTimeout(async () => {
       try {
         const reference =
           formData.payment_method === 'Bank Transfer'
             ? `${formData.bank_name} - ${formData.account_number}`
+            : formData.payment_method === 'Cash'
+            ? 'In-person'
             : formData.phone;
 
-        await createPayment({
-          member_id: formData.member_id,
-          amount: formData.amount,
+        await submitPayment({
+          member_id: user.id,
+          amount: selectedDuration.price,
           payment_method: formData.payment_method,
           payment_reference: reference,
-          for_period: formData.for_period,
-          status: 'Paid',
+          for_period: selectedDuration.label,
+          duration_months: selectedDuration.months,
         });
 
         setStep('success');
@@ -90,6 +80,8 @@ function PaymentForm({ onClose }) {
       }
     }, 1800);
   }
+
+  const selectedDuration = DURATIONS[formData.duration_index];
 
   if (step === 'processing') {
     return (
@@ -111,8 +103,8 @@ function PaymentForm({ onClose }) {
         <div className="modal payment-modal">
           <div className="success-state">
             <div className="success-icon">✓</div>
-            <h2>Payment Successful</h2>
-            <p>{Number(formData.amount).toLocaleString()} RWF received via {formData.payment_method}</p>
+            <h2>Payment Submitted</h2>
+            <p>Your {selectedDuration.price.toLocaleString()} RWF payment for {selectedDuration.label} is awaiting admin confirmation. You'll get an email once it's approved.</p>
             <button className="btn-primary btn-full" onClick={onClose}>Done</button>
           </div>
         </div>
@@ -123,29 +115,24 @@ function PaymentForm({ onClose }) {
   return (
     <div className="modal-overlay">
       <div className="modal payment-modal">
-        <h2>Record a Payment</h2>
+        <h2>Pay for Membership</h2>
         {error && <p className="form-error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-row">
-            <label>Member</label>
-            <select name="member_id" value={formData.member_id} onChange={handleChange} required>
-              <option value="">-- Select a member --</option>
-              {members.map((m) => (
-                <option key={m.member_id} value={m.member_id}>
-                  {m.first_name} {m.last_name} ({m.email})
-                </option>
+            <label>Duration</label>
+            <div className="duration-selector">
+              {DURATIONS.map((d, i) => (
+                <button
+                  type="button"
+                  key={d.label}
+                  className={`duration-btn ${formData.duration_index === i ? 'active' : ''}`}
+                  onClick={() => setFormData({ ...formData, duration_index: i })}
+                >
+                  <span className="duration-label">{d.label}</span>
+                  <span className="duration-price">{d.price.toLocaleString()} RWF</span>
+                </button>
               ))}
-            </select>
-          </div>
-
-          <div className="form-row">
-            <label>Amount (RWF)</label>
-            <input type="number" name="amount" value={formData.amount} onChange={handleChange} min="1" required />
-          </div>
-
-          <div className="form-row">
-            <label>For Period</label>
-            <input name="for_period" value={formData.for_period} onChange={handleChange} placeholder="e.g. October 2026" />
+            </div>
           </div>
 
           <div className="form-row">
@@ -205,12 +192,12 @@ function PaymentForm({ onClose }) {
           )}
 
           {formData.payment_method === 'Cash' && (
-            <p className="field-hint">Cash payments are recorded immediately, no reference needed.</p>
+            <p className="field-hint">Pay at the front desk, then submit here — an admin will confirm it.</p>
           )}
 
           <div className="modal-actions">
             <button type="button" className="btn-secondary" onClick={onClose}>Cancel</button>
-            <button type="submit" className="btn-primary">Pay Now</button>
+            <button type="submit" className="btn-primary">Submit Payment</button>
           </div>
         </form>
       </div>

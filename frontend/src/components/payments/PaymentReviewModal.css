@@ -1,0 +1,54 @@
+.review-modal {
+  width: 440px;
+}
+
+.review-details {
+  background-color: #f8fafc;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.review-row:last-child {
+  border-bottom: none;
+}
+
+.review-row span {
+  color: #64748b;
+}
+
+.review-row strong {
+  color: #1e293b;
+}
+
+.review-note {
+  font-size: 0.85rem;
+  color: #64748b;
+  background-color: #eff6ff;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+}
+
+.btn-reject {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.btn-reject:hover {
+  background-color: #fecaca;
+}

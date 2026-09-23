@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { getPayments } from '../services/api';
-import PaymentForm from '../components/payments/PaymentForm';
+import PaymentReviewModal from '../components/payments/PaymentReviewModal';
 import './Payments.css';
 
 function Payments() {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [reviewingPayment, setReviewingPayment] = useState(null);
 
   async function loadPayments() {
     try {
@@ -24,9 +24,9 @@ function Payments() {
     loadPayments();
   }, []);
 
-  function handleFormClose() {
-    setShowForm(false);
-    loadPayments();
+  function handleReviewClose(didChange) {
+    setReviewingPayment(null);
+    if (didChange) loadPayments();
   }
 
   function methodBadgeClass(method) {
@@ -36,21 +36,32 @@ function Payments() {
     return 'badge-cash';
   }
 
+  function statusBadgeClass(status) {
+    if (status === 'Paid') return 'status-paid';
+    if (status === 'Pending') return 'status-pending';
+    return 'status-failed';
+  }
+
   if (loading) return <div className="payments-page"><p>Loading...</p></div>;
 
-  const totalRevenue = payments.reduce((sum, p) => sum + Number(p.amount || 0), 0);
+  const totalRevenue = payments.filter(p => p.status === 'Paid').reduce((sum, p) => sum + Number(p.amount || 0), 0);
+  const pendingCount = payments.filter(p => p.status === 'Pending').length;
 
   return (
     <div className="payments-page">
       <div className="payments-header">
         <div>
           <h1>Payments</h1>
-          <p className="revenue-line">Total Revenue: <strong>{totalRevenue.toLocaleString()} RWF</strong></p>
+          <p className="revenue-line">
+            Total Revenue: <strong>{totalRevenue.toLocaleString()} RWF</strong>
+            {pendingCount > 0 && <span className="pending-pill">{pendingCount} pending review</span>}
+          </p>
         </div>
-        <button className="btn-primary" onClick={() => setShowForm(true)}>+ Record Payment</button>
       </div>
 
-      {showForm && <PaymentForm onClose={handleFormClose} />}
+      {reviewingPayment && (
+        <PaymentReviewModal payment={reviewingPayment} onClose={handleReviewClose} />
+      )}
 
       <table className="payments-table">
         <thead>
@@ -60,9 +71,9 @@ function Payments() {
             <th>Amount</th>
             <th>Method</th>
             <th>Reference</th>
-            <th>Period</th>
             <th>Date</th>
             <th>Status</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -70,15 +81,19 @@ function Payments() {
             <tr><td colSpan="8" style={{ textAlign: 'center' }}>No payments recorded yet.</td></tr>
           ) : (
             payments.map((p) => (
-              <tr key={p.payment_id}>
+              <tr key={p.payment_id} className={p.status === 'Pending' ? 'row-pending' : ''}>
                 <td>{p.payment_id}</td>
                 <td>{p.member_first_name} {p.member_last_name}</td>
                 <td>{Number(p.amount).toLocaleString()} RWF</td>
                 <td><span className={`method-badge ${methodBadgeClass(p.payment_method)}`}>{p.payment_method}</span></td>
                 <td>{p.payment_reference || '—'}</td>
-                <td>{p.for_period || '—'}</td>
                 <td>{p.payment_date}</td>
-                <td>{p.status}</td>
+                <td><span className={`status-badge ${statusBadgeClass(p.status)}`}>{p.status}</span></td>
+                <td>
+                  {p.status === 'Pending' && (
+                    <button className="btn-primary btn-small" onClick={() => setReviewingPayment(p)}>Review</button>
+                  )}
+                </td>
               </tr>
             ))
           )}
