@@ -1,0 +1,43 @@
+.trainer-dashboard {
+  padding: 2rem;
+}
+
+.trainer-dashboard h1 {
+  color: #1e293b;
+  margin-bottom: 0.3rem;
+}
+
+.trainer-dashboard h2 {
+  color: #475569;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.class-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.class-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.class-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1e293b;
+}
+
+.class-card p {
+  margin: 0.2rem 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.capacity-line {
+  font-weight: 600;
+  color: #3b82f6 !important;
+}

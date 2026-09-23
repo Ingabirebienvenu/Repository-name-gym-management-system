@@ -1,0 +1,90 @@
+.member-dashboard {
+  padding: 2rem;
+}
+
+.member-dashboard h1 {
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+}
+
+.member-dashboard section {
+  margin-bottom: 2rem;
+}
+
+.member-dashboard h2 {
+  color: #475569;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.dashboard-message {
+  background-color: #dbeafe;
+  color: #1e40af;
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.class-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.class-card {
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.class-card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1e293b;
+}
+
+.class-card p {
+  margin: 0.2rem 0 0.8rem 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.simple-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.simple-table th, .simple-table td {
+  text-align: left;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.simple-table th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.notification-list {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem;
+  margin: 0;
+}
+
+.notification-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  color: #334155;
+}
+
+.notification-list li:last-child {
+  border-bottom: none;
+}
