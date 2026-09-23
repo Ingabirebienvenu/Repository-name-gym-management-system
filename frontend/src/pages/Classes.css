@@ -68,3 +68,14 @@
   background-color: #fee2e2;
   color: #dc2626;
 }
+
+.btn-view {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 0.4rem;
+}

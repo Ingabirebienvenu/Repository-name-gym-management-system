@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getClasses, deleteClass } from '../services/api';
 import ClassForm from '../components/classes/ClassForm';
+import ClassBookingsModal from '../components/classes/ClassBookingsModal';
 import './Classes.css';
 
 function Classes() {
@@ -8,6 +9,7 @@ function Classes() {
   const [loading, setLoading] = useState(true);
   const [editingClass, setEditingClass] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [viewingBookingsFor, setViewingBookingsFor] = useState(null);
 
   async function loadClasses() {
     try {
@@ -65,6 +67,10 @@ function Classes() {
         <ClassForm classItem={editingClass} onClose={handleFormClose} />
       )}
 
+      {viewingBookingsFor && (
+        <ClassBookingsModal classItem={viewingBookingsFor} onClose={() => setViewingBookingsFor(null)} />
+      )}
+
       <table className="classes-table">
         <thead>
           <tr>
@@ -90,6 +96,7 @@ function Classes() {
                 <td>{c.start_time} - {c.end_time}</td>
                 <td>{c.capacity}</td>
                 <td>
+                  <button className="btn-view" onClick={() => setViewingBookingsFor(c)}>Bookings</button>
                   <button className="btn-edit" onClick={() => handleEdit(c)}>Edit</button>
                   <button className="btn-delete" onClick={() => handleDelete(c.class_id)}>Delete</button>
                 </td>

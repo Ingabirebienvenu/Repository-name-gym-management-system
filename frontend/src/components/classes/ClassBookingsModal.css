@@ -1,0 +1,28 @@
+.bookings-modal {
+  width: 480px;
+}
+
+.bookings-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: -0.5rem 0 1.2rem 0;
+}
+
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+}
+
+.bookings-table th, .bookings-table td {
+  text-align: left;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.bookings-table th {
+  color: #475569;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
