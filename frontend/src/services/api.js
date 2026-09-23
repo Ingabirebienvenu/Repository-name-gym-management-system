@@ -9,6 +9,10 @@ const api = axios.create({
   },
 });
 
+// ---------- AUTH ----------
+export const registerMember = (data) => api.post('/auth/register', data);
+export const login = (credentials) => api.post('/auth/login', credentials);
+
 // ---------- MEMBERS ----------
 export const getMembers = () => api.get('/members');
 export const getMember = (id) => api.get(`/members/${id}`);
