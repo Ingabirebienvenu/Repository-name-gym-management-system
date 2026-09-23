@@ -1,0 +1,73 @@
+.payments-page {
+  padding: 2rem;
+}
+
+.payments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.payments-header h1 {
+  color: #1e293b;
+  margin: 0 0 0.3rem 0;
+}
+
+.revenue-line {
+  color: #64748b;
+  margin: 0;
+}
+
+.revenue-line strong {
+  color: #16a34a;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+
+.payments-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payments-table th, .payments-table td {
+  text-align: left;
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.payments-table th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.method-badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-mtn { background-color: #fef3c7; color: #b45309; }
+.badge-airtel { background-color: #fee2e2; color: #dc2626; }
+.badge-bank { background-color: #dbeafe; color: #1d4ed8; }
+.badge-cash { background-color: #dcfce7; color: #16a34a; }
