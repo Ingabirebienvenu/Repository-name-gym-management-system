@@ -13,6 +13,9 @@ const api = axios.create({
 export const registerMember = (data) => api.post('/auth/register', data);
 export const login = (credentials) => api.post('/auth/login', credentials);
 
+///////Export Dashboard
+export const getDashboardStats = () => api.get('/dashboard/stats');
+
 // ---------- MEMBERS ----------
 export const getMembers = () => api.get('/members');
 export const getMember = (id) => api.get(`/members/${id}`);
