@@ -4,8 +4,8 @@ import {
   getBookingsByMember, getPaymentsByMember, getNotificationsByMember,
   getClasses, createBooking, cancelBooking
 } from '../services/api';
-import './MemberDashboard.css';
 import PaymentForm from '../components/payments/PaymentForm';
+import './MemberDashboard.css';
 
 function MemberDashboard() {
   const { user } = useAuth();
@@ -65,8 +65,15 @@ function MemberDashboard() {
 
   return (
     <div className="member-dashboard">
-      <h1>Welcome, {user.first_name} {user.last_name}</h1>
+      <div className="dashboard-header-row">
+        <h1>Welcome, {user.first_name} {user.last_name}</h1>
+        <button className="btn-primary" onClick={() => setShowPaymentForm(true)}>Pay for Membership</button>
+      </div>
       {message && <p className="dashboard-message">{message}</p>}
+
+      {showPaymentForm && (
+        <PaymentForm onClose={() => { setShowPaymentForm(false); loadData(); }} />
+      )}
 
       <section>
         <h2>Available Classes</h2>

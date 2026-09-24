@@ -88,3 +88,14 @@
 .notification-list li:last-child {
   border-bottom: none;
 }
+
+.dashboard-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header-row h1 {
+  margin: 0;
+}
