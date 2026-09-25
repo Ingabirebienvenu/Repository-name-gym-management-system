@@ -19,6 +19,7 @@ def get_member_bookings(member_id):
 @booking_bp.route('/class/<int:class_id>', methods=['GET'])
 def get_class_bookings(class_id):
     records = get_bookings_by_class(class_id)
+    record
     return jsonify(records), 200
 
 @booking_bp.route('', methods=['POST'])
