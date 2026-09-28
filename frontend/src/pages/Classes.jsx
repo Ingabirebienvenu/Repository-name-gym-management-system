@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getClasses, deleteClass } from '../services/api';
 import ClassForm from '../components/classes/ClassForm';
 import ClassBookingsModal from '../components/classes/ClassBookingsModal';
+import ExportButton from '../components/common/ExportButton';
 import './Classes.css';
 
 function Classes() {
@@ -60,7 +61,10 @@ function Classes() {
     <div className="classes-page">
       <div className="classes-header">
         <h1>Classes</h1>
-        <button className="btn-primary" onClick={handleAddNew}>+ Add Class</button>
+        <div className="header-actions">
+          <ExportButton report="classes" label="Classes" />
+          <button className="btn-primary" onClick={handleAddNew}>+ Add Class</button>
+        </div>
       </div>
 
       {showForm && (

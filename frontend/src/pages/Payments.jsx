@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getPayments } from '../services/api';
 import PaymentReviewModal from '../components/payments/PaymentReviewModal';
+import ExportButton from '../components/common/ExportButton';
 import './Payments.css';
 
 function Payments() {
@@ -44,8 +45,8 @@ function Payments() {
 
   if (loading) return <div className="payments-page"><p>Loading...</p></div>;
 
-  const totalRevenue = payments.filter(p => p.status === 'Paid').reduce((sum, p) => sum + Number(p.amount || 0), 0);
-  const pendingCount = payments.filter(p => p.status === 'Pending').length;
+  const totalRevenue = payments.filter((p) => p.status === 'Paid').reduce((sum, p) => sum + Number(p.amount || 0), 0);
+  const pendingCount = payments.filter((p) => p.status === 'Pending').length;
 
   return (
     <div className="payments-page">
@@ -57,6 +58,13 @@ function Payments() {
             {pendingCount > 0 && <span className="pending-pill">{pendingCount} pending review</span>}
           </p>
         </div>
+        <ExportButton
+          report="payments"
+          label="Payments"
+          statusOptions={['Paid', 'Pending', 'Failed']}
+          hasDateRange
+          dateLabel="Payment date"
+        />
       </div>
 
       {reviewingPayment && (

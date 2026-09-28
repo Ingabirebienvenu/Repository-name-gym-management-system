@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getTrainers, deleteTrainer } from '../services/api';
 import TrainerForm from '../components/trainers/TrainerForm';
+import ExportButton from '../components/common/ExportButton';
 import './Trainers.css';
 
 function Trainers() {
@@ -58,7 +59,10 @@ function Trainers() {
     <div className="trainers-page">
       <div className="trainers-header">
         <h1>Trainers</h1>
-        <button className="btn-primary" onClick={handleAddNew}>+ Add Trainer</button>
+        <div className="header-actions">
+          <ExportButton report="trainers" label="Trainers" />
+          <button className="btn-primary" onClick={handleAddNew}>+ Add Trainer</button>
+        </div>
       </div>
 
       {showForm && (

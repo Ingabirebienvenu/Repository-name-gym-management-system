@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getMembers, deleteMember } from '../services/api';
 import MemberForm from '../components/members/MemberForm';
+import ExportButton from '../components/common/ExportButton';
 import './Members.css';
 
 function Members() {
@@ -58,7 +59,14 @@ function Members() {
     <div className="members-page">
       <div className="members-header">
         <h1>Members</h1>
-        <button className="btn-primary" onClick={handleAddNew}>+ Add Member</button>
+        <div className="header-actions">
+          <ExportButton
+            report="members"
+            label="Members"
+            statusOptions={['Active', 'Inactive', 'Expired']}
+          />
+          <button className="btn-primary" onClick={handleAddNew}>+ Add Member</button>
+        </div>
       </div>
 
       {showForm && (

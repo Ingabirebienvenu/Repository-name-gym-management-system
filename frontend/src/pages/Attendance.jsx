@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAttendance, getMembers, checkIn, checkOut } from '../services/api';
+import ExportButton from '../components/common/ExportButton';
 import './Attendance.css';
 
 function Attendance() {
@@ -56,7 +57,10 @@ function Attendance() {
 
   return (
     <div className="attendance-page">
-      <h1>Attendance</h1>
+      <div className="header-actions" style={{ justifyContent: 'space-between', marginBottom: '1.2rem' }}>
+        <h1 style={{ margin: 0 }}>Attendance</h1>
+        <ExportButton report="attendance" label="Attendance" hasDateRange dateLabel="Check-in date" />
+      </div>
 
       <div className="checkin-bar">
         <select value={selectedMemberId} onChange={(e) => setSelectedMemberId(e.target.value)}>

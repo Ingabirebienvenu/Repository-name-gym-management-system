@@ -6,6 +6,7 @@ import {
   LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
+import ExportButton from '../components/common/ExportButton';
 import './Dashboard.css';
 
 const COLORS = ['#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
@@ -56,7 +57,10 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h1>Dashboard</h1>
+      <div className="header-actions" style={{ justifyContent: 'space-between', marginBottom: '1.2rem' }}>
+        <h1 style={{ margin: 0 }}>Dashboard</h1>
+        <ExportButton report="full" label="Full System" buttonText="Export Full Report" />
+      </div>
 
       <div className="stats-grid">
         <div className="stat-card">
