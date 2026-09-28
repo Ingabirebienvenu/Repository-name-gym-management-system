@@ -1,0 +1,44 @@
+.roster-modal {
+  width: 480px;
+}
+
+.roster-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: -0.5rem 0 1.2rem 0;
+}
+
+.roster-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.5rem;
+}
+
+.roster-table th, .roster-table td {
+  text-align: left;
+  padding: 0.6rem 0.4rem;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+}
+
+.roster-table th {
+  color: #475569;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.roster-status {
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.roster-status-booked { background-color: #dbeafe; color: #1d4ed8; }
+.roster-status-attended { background-color: #dcfce7; color: #16a34a; }
+.roster-status-cancelled { background-color: #fee2e2; color: #dc2626; }
+
+.btn-small {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+}

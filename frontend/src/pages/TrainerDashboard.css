@@ -1,43 +1,227 @@
 .trainer-dashboard {
   padding: 2rem;
+  max-width: 1200px;
 }
 
-.trainer-dashboard h1 {
+.loading-text {
+  color: #64748b;
+}
+
+/* Hero header */
+.trainer-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: linear-gradient(135deg, #1e293b, #334155);
+  border-radius: 14px;
+  padding: 1.6rem 1.8rem;
+  color: white;
+  margin-bottom: 1.8rem;
+}
+
+.trainer-avatar {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #3b82f6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.trainer-hero-eyebrow {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #93c5fd;
+  font-weight: 600;
+}
+
+.trainer-hero h1 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.5rem;
+}
+
+.trainer-hero-sub {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 0.92rem;
+}
+
+/* Stat cards */
+.trainer-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.trainer-stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.icon-blue { background-color: #dbeafe; }
+.icon-green { background-color: #dcfce7; }
+.icon-amber { background-color: #fef3c7; }
+
+.trainer-stat-card h3 {
+  margin: 0 0 0.25rem 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.trainer-stat-card p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
   color: #1e293b;
-  margin-bottom: 0.3rem;
 }
 
-.trainer-dashboard h2 {
-  color: #475569;
-  font-size: 1.1rem;
+/* Section heading */
+.section-heading {
   margin-bottom: 1rem;
 }
 
+.section-heading h2 {
+  color: #1e293b;
+  font-size: 1.15rem;
+  margin: 0;
+}
+
+/* Empty state */
+.empty-state {
+  background: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: #64748b;
+}
+
+.empty-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.empty-state h3 {
+  margin: 0 0 0.4rem 0;
+  color: #334155;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Class cards */
 .class-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.2rem;
 }
 
 .class-card {
   background: white;
-  border-radius: 10px;
-  padding: 1.2rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 1.3rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.class-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
 }
 
 .class-card h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   color: #1e293b;
+  font-size: 1.05rem;
 }
 
-.class-card p {
-  margin: 0.2rem 0;
-  color: #64748b;
-  font-size: 0.9rem;
-}
-
-.capacity-line {
+.day-badge {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.75rem;
   font-weight: 600;
-  color: #3b82f6 !important;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.class-time {
+  margin: 0 0 1rem 0;
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+.capacity-block {
+  margin-bottom: 1.1rem;
+}
+
+.capacity-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #475569;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+
+.capacity-bar {
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.capacity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.class-card .btn-primary {
+  margin-top: auto;
+  width: 100%;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.class-card .btn-primary:hover {
+  background-color: #2563eb;
 }
