@@ -16,6 +16,7 @@ def create_app():
     from app.routes.booking_routes import booking_bp
     from app.routes.auth_routes import auth_bp
     from app.routes.dashboard_routes import dashboard_bp
+    from app.routes.report_routes import report_bp
 
     app.register_blueprint(member_bp)
     app.register_blueprint(trainer_bp)
@@ -26,6 +27,7 @@ def create_app():
     app.register_blueprint(booking_bp)
     app.register_blueprint(auth_bp)
     app.register_blueprint(dashboard_bp)
+    app.register_blueprint(report_bp)
 
     @app.route('/')
     def index():
