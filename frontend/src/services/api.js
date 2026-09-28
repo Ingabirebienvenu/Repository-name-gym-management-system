@@ -74,3 +74,7 @@ export const cancelBooking = (id) => api.put(`/bookings/${id}/cancel`);
 export const markAttended = (id) => api.put(`/bookings/${id}/attend`);
 
 export default api;
+
+
+export const downloadReport = (report, format, params = {}) =>
+  api.get(`/reports/${report}/${format}`, { params, responseType: 'blob' });

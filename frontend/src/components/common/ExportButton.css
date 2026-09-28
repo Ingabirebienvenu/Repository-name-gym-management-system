@@ -1,0 +1,91 @@
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.btn-export {
+  background-color: white;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-export:hover {
+  background-color: #f1f5f9;
+}
+
+.export-modal {
+  width: 440px;
+}
+
+.export-subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: -0.4rem 0 1.2rem 0;
+}
+
+.export-dates {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.export-dates input {
+  flex: 1;
+  min-width: 0;
+}
+
+.export-dates span {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.export-hint {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.export-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.btn-pdf,
+.btn-excel {
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-pdf {
+  background-color: #dc2626;
+}
+
+.btn-pdf:hover:not(:disabled) {
+  background-color: #b91c1c;
+}
+
+.btn-excel {
+  background-color: #16a34a;
+}
+
+.btn-excel:hover:not(:disabled) {
+  background-color: #15803d;
+}
+
+.btn-pdf:disabled,
+.btn-excel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
