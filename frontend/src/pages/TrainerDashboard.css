@@ -1,6 +1,6 @@
 .trainer-dashboard {
   padding: 2rem;
-  max-width: 1200px;
+  max-width: 1300px;
 }
 
 .loading-text {
@@ -34,6 +34,10 @@
   letter-spacing: 0.5px;
 }
 
+.trainer-hero-text {
+  flex: 1;
+}
+
 .trainer-hero-eyebrow {
   margin: 0 0 0.2rem 0;
   font-size: 0.78rem;
@@ -52,6 +56,22 @@
   margin: 0;
   color: #cbd5e1;
   font-size: 0.92rem;
+}
+
+.btn-edit-profile {
+  flex-shrink: 0;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.6rem 1.1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-edit-profile:hover {
+  background-color: rgba(255, 255, 255, 0.22);
 }
 
 /* Stat cards */
@@ -101,7 +121,20 @@
   color: #1e293b;
 }
 
-/* Section heading */
+/* Two-column layout: classes + sidebar */
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.8rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
 .section-heading {
   margin-bottom: 1rem;
 }
@@ -140,7 +173,7 @@
 /* Class cards */
 .class-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.2rem;
 }
 
@@ -175,6 +208,11 @@
   padding: 0.2rem 0.6rem;
   border-radius: 20px;
   white-space: nowrap;
+}
+
+.day-badge-today {
+  background-color: #dcfce7;
+  color: #16a34a;
 }
 
 .class-time {
@@ -224,4 +262,89 @@
 
 .class-card .btn-primary:hover {
   background-color: #2563eb;
+}
+
+/* Sidebar cards */
+.dashboard-side {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.side-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.side-card-title {
+  margin: 0 0 0.9rem 0;
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.88rem;
+}
+
+.profile-row:last-child {
+  border-bottom: none;
+}
+
+.profile-row span {
+  color: #64748b;
+}
+
+.profile-row strong {
+  color: #1e293b;
+  font-weight: 600;
+  text-align: right;
+}
+
+.week-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.week-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.week-list li:last-child {
+  border-bottom: none;
+}
+
+.week-row-today {
+  background-color: #f0fdf4;
+  margin: 0 -0.6rem;
+  padding-left: 0.6rem !important;
+  padding-right: 0.6rem !important;
+  border-radius: 6px;
+}
+
+.week-day {
+  color: #475569;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.week-classes {
+  color: #1e293b;
+  text-align: right;
+}
+
+.week-empty {
+  color: #cbd5e1;
 }
