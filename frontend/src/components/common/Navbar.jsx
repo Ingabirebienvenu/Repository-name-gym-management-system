@@ -6,6 +6,7 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { role, user, logoutUser } = useAuth();
+  
 
   const adminLinks = [
     { path: '/admin', label: 'Dashboard' },
@@ -15,7 +16,11 @@ function Navbar() {
     { path: '/payments', label: 'Payments' },
     { path: '/attendance', label: 'Attendance' },
   ];
-  const trainerLinks = [{ path: '/trainer', label: 'Dashboard' }];
+  const trainerLinks = [
+  { path: '/trainer', label: 'Dashboard' },
+  { path: '/trainer/classes', label: 'Classes' },
+  { path: '/trainer/messages', label: 'Messages' },
+  ];
   const memberLinks = [{ path: '/member', label: 'Dashboard' }];
 
   const links = role === 'admin' ? adminLinks : role === 'trainer' ? trainerLinks : memberLinks;

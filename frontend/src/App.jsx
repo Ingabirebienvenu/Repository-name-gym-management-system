@@ -14,6 +14,9 @@ import Attendance from './pages/Attendance';
 import TrainerDashboard from './pages/TrainerDashboard';
 import MemberDashboard from './pages/MemberDashboard';
 
+import TrainerClasses from './pages/TrainerClasses';
+import TrainerMessages from './pages/TrainerMessages';
+
 import './styles/App.css';
 
 function Layout({ children }) {
@@ -42,6 +45,8 @@ function AppRoutes() {
       <Route path="/classes" element={<ProtectedRoute allowedRoles={['admin']}><Classes /></ProtectedRoute>} />
       <Route path="/payments" element={<ProtectedRoute allowedRoles={['admin']}><Payments /></ProtectedRoute>} />
       <Route path="/attendance" element={<ProtectedRoute allowedRoles={['admin']}><Attendance /></ProtectedRoute>} />
+      <Route path="/trainer/classes" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerClasses /></ProtectedRoute>} />
+      <Route path="/trainer/messages" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerMessages /></ProtectedRoute>} />
 
       <Route path="/trainer" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerDashboard /></ProtectedRoute>} />
       <Route path="/member" element={<ProtectedRoute allowedRoles={['member']}><MemberDashboard /></ProtectedRoute>} />

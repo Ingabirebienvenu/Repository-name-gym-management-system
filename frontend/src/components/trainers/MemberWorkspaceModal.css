@@ -1,0 +1,167 @@
+.workspace-modal {
+  width: 640px;
+  max-width: 92vw;
+}
+
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.workspace-header h2 {
+  margin: 0;
+  color: #1e293b;
+}
+
+.workspace-subtitle {
+  margin: 0.2rem 0 0 0;
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+.workspace-tabs {
+  display: flex;
+  gap: 0.4rem;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 1.2rem;
+}
+
+.workspace-tabs button {
+  background: none;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.workspace-tabs button.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+}
+
+.workspace-body {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.workspace-loading, .workspace-empty {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  padding: 1rem 0;
+}
+
+.workspace-section-title {
+  color: #1e293b;
+  font-size: 0.95rem;
+  margin: 1.2rem 0 0.6rem 0;
+}
+
+/* Messages */
+.messages-tab {
+  display: flex;
+  flex-direction: column;
+  height: 420px;
+}
+
+.message-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.5rem 0.2rem;
+}
+
+.bubble-row {
+  display: flex;
+}
+
+.bubble-row.from-trainer {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 75%;
+  padding: 0.55rem 0.8rem;
+  border-radius: 12px;
+  background-color: #f1f5f9;
+  color: #1e293b;
+}
+
+.from-trainer .bubble {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.bubble p {
+  margin: 0;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+}
+
+.bubble-time {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.message-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.message-input-row input {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* Progress / Supplements forms */
+.progress-form {
+  background-color: #f8fafc;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.8rem;
+}
+
+.workspace-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.workspace-table th, .workspace-table td {
+  text-align: left;
+  padding: 0.55rem 0.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.workspace-table th {
+  color: #64748b;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.btn-delete-small {
+  background-color: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}

@@ -65,6 +65,21 @@ export const createNotification = (data) => api.post('/notifications', data);
 export const markNotificationRead = (id) => api.put(`/notifications/${id}/read`);
 export const deleteNotification = (id) => api.delete(`/notifications/${id}`);
 
+// ---------- MESSAGING / PROGRESS / SUPPLEMENTS ----------
+export const getTrainerMembers = (trainerId) => api.get(`/messages/trainer/${trainerId}/members`);
+export const getConversation = (trainerId, memberId) => api.get(`/messages/conversation/${trainerId}/${memberId}`);
+export const sendMessage = (data) => api.post('/messages', data);
+export const markConversationRead = (trainerId, memberId, reader) =>
+  api.put(`/messages/conversation/${trainerId}/${memberId}/read`, { reader });
+
+export const getProgress = (memberId) => api.get(`/progress/member/${memberId}`);
+export const addProgress = (data) => api.post('/progress', data);
+export const deleteProgress = (id) => api.delete(`/progress/${id}`);
+
+export const getSupplements = (memberId) => api.get(`/supplements/member/${memberId}`);
+export const addSupplement = (data) => api.post('/supplements', data);
+export const deleteSupplement = (id) => api.delete(`/supplements/${id}`);
+
 // ---------- CLASS BOOKINGS ----------
 export const getBookings = () => api.get('/bookings');
 export const getBookingsByMember = (memberId) => api.get(`/bookings/member/${memberId}`);
