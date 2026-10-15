@@ -1,0 +1,24 @@
+.cap-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.2rem; }
+.cap-stat { background: #fff; border-radius: 10px; padding: .9rem 1.1rem; box-shadow: 0 1px 4px rgba(0,0,0,.08); display: flex; flex-direction: column; }
+.cap-stat span { color: #64748b; font-size: .78rem; font-weight: 600; }
+.cap-stat strong { color: #1e293b; font-size: 1.5rem; }
+.cap-stat strong.g { color: #16a34a; } .cap-stat strong.a { color: #b45309; } .cap-stat strong.r { color: #dc2626; }
+
+.cap-filters { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center; margin-bottom: 1rem; }
+.cap-filters select, .cap-filters input { padding: .5rem .7rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: .9rem; background: #fff; }
+.cap-filters label { font-size: .85rem; color: #64748b; display: flex; align-items: center; gap: .4rem; }
+.cap-filters button { background: #f1f5f9; border: none; padding: .5rem 1rem; border-radius: 6px; font-weight: 600; cursor: pointer; color: #475569; }
+
+.cap-day { color: #94a3b8; margin-left: .3rem; }
+.cap-pill { display: inline-block; padding: .2rem .7rem; border-radius: 20px; font-size: .78rem; font-weight: 700; }
+.cap-pill.present { background: #dcfce7; color: #166534; }
+.cap-pill.late { background: #fef3c7; color: #92400e; }
+.cap-pill.absent { background: #fee2e2; color: #991b1b; }
+
+/* Tabs (used by the admin Attendance page) */
+.att-tabs { display: flex; gap: .4rem; margin-bottom: 1.2rem; border-bottom: 2px solid #e2e8f0; }
+.att-tabs button {
+  background: none; border: none; padding: .7rem 1.2rem; font-weight: 600; font-size: .95rem;
+  color: #64748b; cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px;
+}
+.att-tabs button.active { color: #2563eb; border-bottom-color: #2563eb; }

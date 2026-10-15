@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getAttendance, getMembers, checkIn, checkOut } from '../services/api';
 import ExportButton from '../components/common/ExportButton';
+import ClassAttendancePanel from '../components/attendance/ClassAttendancePanel';
 import './Attendance.css';
 
 function Attendance() {
@@ -9,6 +10,7 @@ function Attendance() {
   const [selectedMemberId, setSelectedMemberId] = useState('');
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [tab, setTab] = useState('classes');
 
   async function loadData() {
     try {
@@ -59,48 +61,59 @@ function Attendance() {
     <div className="attendance-page">
       <div className="header-actions" style={{ justifyContent: 'space-between', marginBottom: '1.2rem' }}>
         <h1 style={{ margin: 0 }}>Attendance</h1>
-        <ExportButton report="attendance" label="Attendance" hasDateRange dateLabel="Check-in date" />
+        {tab === 'gym' && <ExportButton report="attendance" label="Attendance" hasDateRange dateLabel="Check-in date" />}
       </div>
 
-      <div className="checkin-bar">
-        <select value={selectedMemberId} onChange={(e) => setSelectedMemberId(e.target.value)}>
-          <option value="">-- Select a member to check in --</option>
-          {members.map((m) => (
-            <option key={m.member_id} value={m.member_id}>{m.first_name} {m.last_name}</option>
-          ))}
-        </select>
-        <button className="btn-primary" onClick={handleCheckIn}>Check In</button>
+      <div className="att-tabs">
+        <button className={tab === 'classes' ? 'active' : ''} onClick={() => setTab('classes')}>Class attendance</button>
+        <button className={tab === 'gym' ? 'active' : ''} onClick={() => setTab('gym')}>Gym check-ins</button>
       </div>
-      {message && <p className="attendance-message">{message}</p>}
 
-      <table className="attendance-table">
-        <thead>
-          <tr>
-            <th>Member</th>
-            <th>Check-In</th>
-            <th>Check-Out</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {records.length === 0 ? (
-            <tr><td colSpan="4" style={{ textAlign: 'center' }}>No attendance records yet.</td></tr>
-          ) : (
-            records.map((r) => (
-              <tr key={r.attendance_id}>
-                <td>{r.first_name} {r.last_name}</td>
-                <td>{r.check_in_time}</td>
-                <td>{r.check_out_time || '—'}</td>
-                <td>
-                  {!r.check_out_time && (
-                    <button className="btn-edit" onClick={() => handleCheckOut(r.attendance_id)}>Check Out</button>
-                  )}
-                </td>
+      {tab === 'classes' && <ClassAttendancePanel />}
+
+      {tab === 'gym' && (
+        <>
+          <div className="checkin-bar">
+            <select value={selectedMemberId} onChange={(e) => setSelectedMemberId(e.target.value)}>
+              <option value="">-- Select a member to check in --</option>
+              {members.map((m) => (
+                <option key={m.member_id} value={m.member_id}>{m.first_name} {m.last_name}</option>
+              ))}
+            </select>
+            <button className="btn-primary" onClick={handleCheckIn}>Check In</button>
+          </div>
+          {message && <p className="attendance-message">{message}</p>}
+
+          <table className="attendance-table">
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Check-In</th>
+                <th>Check-Out</th>
+                <th>Actions</th>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {records.length === 0 ? (
+                <tr><td colSpan="4" style={{ textAlign: 'center' }}>No attendance records yet.</td></tr>
+              ) : (
+                records.map((r) => (
+                  <tr key={r.attendance_id}>
+                    <td>{r.first_name} {r.last_name}</td>
+                    <td>{r.check_in_time}</td>
+                    <td>{r.check_out_time || '—'}</td>
+                    <td>
+                      {!r.check_out_time && (
+                        <button className="btn-edit" onClick={() => handleCheckOut(r.attendance_id)}>Check Out</button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 }

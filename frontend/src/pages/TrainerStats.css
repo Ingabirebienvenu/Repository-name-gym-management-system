@@ -1,0 +1,100 @@
+/* Trainer dashboard statistics. Loaded in addition to TrainerDashboard.css */
+
+.ts-error { color: #b91c1c; background: #fee2e2; padding: .8rem 1rem; border-radius: 8px; }
+
+.ts-hero-actions { display: flex; gap: .6rem; align-items: center; flex-shrink: 0; }
+.ts-hero-link {
+  background: #3b82f6; color: #fff; text-decoration: none; font-weight: 600;
+  padding: .6rem 1.1rem; border-radius: 8px; white-space: nowrap;
+}
+.ts-hero-link:hover { background: #2563eb; }
+
+/* ---------- KPI tiles ---------- */
+.ts-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1.1rem;
+  margin-bottom: 1.6rem;
+}
+.ts-kpi {
+  background: #fff; border-radius: 12px; padding: 1.1rem 1.2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  display: flex; gap: .9rem; align-items: flex-start;
+  text-decoration: none; color: inherit;
+}
+a.ts-kpi.linked { transition: transform .12s, box-shadow .12s; }
+a.ts-kpi.linked:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+.ts-kpi-icon {
+  width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+}
+.ts-kpi-icon.blue   { background: #dbeafe; }
+.ts-kpi-icon.green  { background: #dcfce7; }
+.ts-kpi-icon.amber  { background: #fef3c7; }
+.ts-kpi-icon.teal   { background: #ccfbf1; }
+.ts-kpi-icon.violet { background: #ede9fe; }
+.ts-kpi-icon.rose   { background: #ffe4e6; }
+.ts-kpi-body { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+.ts-kpi-label { color: #64748b; font-size: .8rem; font-weight: 600; }
+.ts-kpi-value { color: #1e293b; font-size: 1.7rem; line-height: 1.2; font-weight: 700; }
+.ts-kpi-caption { color: #64748b; font-size: .78rem; margin-top: .15rem; }
+.ts-meter { height: 6px; background: #e2e8f0; border-radius: 4px; margin: .35rem 0 .1rem; overflow: hidden; }
+.ts-meter-fill { height: 100%; background: #2a78d6; border-radius: 4px; }
+
+/* ---------- Panels ---------- */
+.ts-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+.ts-panel { background: #fff; border-radius: 12px; padding: 1.2rem 1.3rem; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+.ts-panel-head { margin-bottom: .8rem; }
+.ts-panel-head h2 { margin: 0; color: #1e293b; font-size: 1.02rem; }
+.ts-panel-head p { margin: .2rem 0 0; color: #64748b; font-size: .82rem; }
+.ts-empty { color: #64748b; font-size: .9rem; padding: 2.2rem 1rem; text-align: center; margin: 0; }
+
+/* Recharts tooltip */
+.recharts-default-tooltip { border-radius: 8px !important; border: 1px solid #e2e8f0 !important; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+
+/* ---------- Capacity list ---------- */
+.ts-capacity-list, .ts-follow-list { list-style: none; margin: 0; padding: 0; }
+.ts-capacity-list li { padding: .65rem 0; border-bottom: 1px solid #f1f5f9; }
+.ts-capacity-list li:last-child { border-bottom: none; }
+.ts-capacity-top { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; margin-bottom: .4rem; }
+.ts-capacity-name { color: #1e293b; font-weight: 600; font-size: .92rem; display: flex; flex-direction: column; }
+.ts-capacity-name small { color: #64748b; font-weight: 400; font-size: .76rem; }
+.ts-capacity-num { color: #334155; font-weight: 600; font-size: .88rem; white-space: nowrap; display: flex; align-items: center; gap: .45rem; }
+.ts-tag { font-style: normal; font-size: .68rem; font-weight: 700; padding: .12rem .5rem; border-radius: 20px; }
+.ts-tag.full  { background: #fef3c7; color: #92400e; }
+.ts-tag.empty { background: #f1f5f9; color: #475569; }
+.ts-bar { height: 8px; background: #e2e8f0; border-radius: 6px; overflow: hidden; }
+.ts-bar-fill { height: 100%; background: #2a78d6; border-radius: 6px; transition: width .4s; }
+
+/* ---------- Follow-up list ---------- */
+.ts-follow-list li { display: flex; align-items: center; gap: .8rem; padding: .7rem 0; border-bottom: 1px solid #f1f5f9; }
+.ts-follow-list li:last-child { border-bottom: none; }
+.ts-follow-avatar {
+  width: 38px; height: 38px; border-radius: 50%; background: #eff6ff; color: #1d4ed8;
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; flex-shrink: 0;
+}
+.ts-follow-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.ts-follow-text strong { color: #1e293b; font-size: .92rem; }
+.ts-follow-text span { color: #b45309; font-size: .78rem; font-weight: 600; }
+.ts-follow-btn {
+  background: #eff6ff; color: #1d4ed8; text-decoration: none; font-weight: 600; font-size: .8rem;
+  padding: .4rem .8rem; border-radius: 6px; white-space: nowrap;
+}
+.ts-follow-btn:hover { background: #dbeafe; }
+
+/* ---------- Today strip ---------- */
+.ts-today { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 1rem 1.3rem; margin-bottom: 1.2rem; }
+.ts-today h2 { margin: 0 0 .6rem; font-size: 1rem; color: #166534; }
+.ts-today-list { display: flex; flex-wrap: wrap; gap: .8rem; }
+.ts-today-item { background: #fff; border-radius: 8px; padding: .6rem .9rem; display: flex; flex-direction: column; gap: .15rem; font-size: .85rem; color: #475569; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.ts-today-item strong { color: #1e293b; }
+
+@media (max-width: 720px) {
+  .trainer-hero { flex-wrap: wrap; }
+  .ts-row { grid-template-columns: 1fr; }
+}

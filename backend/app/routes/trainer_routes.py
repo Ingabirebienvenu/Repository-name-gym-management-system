@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from app.models.trainer_stats_model import get_trainer_stats
 from app.models.trainer_model import (
     get_all_trainers, get_trainer_by_id,
     create_trainer, update_trainer, update_trainer_password, delete_trainer
@@ -17,6 +18,13 @@ def get_trainer(trainer_id):
     if not trainer:
         return jsonify({"error": "Trainer not found"}), 404
     return jsonify(trainer), 200
+
+@trainer_bp.route('/<int:trainer_id>/stats', methods=['GET'])
+def trainer_stats(trainer_id):
+       if not get_trainer_by_id(trainer_id):
+           return jsonify({"error": "Trainer not found"}), 404
+       return jsonify(get_trainer_stats(trainer_id)), 200
+
 
 @trainer_bp.route('', methods=['POST'])
 def add_trainer():

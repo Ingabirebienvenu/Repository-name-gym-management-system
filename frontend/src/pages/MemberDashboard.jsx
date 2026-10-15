@@ -1,36 +1,49 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getClasses, getBookingsByClass, getTrainer } from '../services/api';
-import RosterModal from '../components/trainers/RosterModal';
-import TrainerProfileForm from '../components/trainers/TrainerProfileForm';
-import './TrainerDashboard.css';
+import {
+  getBookingsByMember, getPaymentsByMember, getNotificationsByMember,
+  getClasses, createBooking, cancelBooking, getMember
+} from '../services/api';
+import { getMemberTrainers } from '../services/memberApi';
+import PaymentForm from '../components/payments/PaymentForm';
+import './MemberPortal.css';
 
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-function TrainerDashboard() {
-  const { user } = useAuth();
-  const [myClasses, setMyClasses] = useState([]);
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [viewingRosterFor, setViewingRosterFor] = useState(null);
-  const [editingProfile, setEditingProfile] = useState(false);
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  return Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24));
+}
 
-  async function loadClasses() {
+function MemberDashboard() {
+  const { user } = useAuth();
+  const [profile, setProfile] = useState(null);
+  const [bookings, setBookings] = useState([]);
+  const [payments, setPayments] = useState([]);
+  const [notifications, setNotifications] = useState([]);
+  const [availableClasses, setAvailableClasses] = useState([]);
+  const [trainers, setTrainers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  async function loadData() {
     try {
-      setLoading(true);
-      const [classesRes, profileRes] = await Promise.all([
+      const [memberRes, bookingsRes, paymentsRes, notificationsRes, classesRes, trainersRes] = await Promise.all([
+        getMember(user.id),
+        getBookingsByMember(user.id),
+        getPaymentsByMember(user.id),
+        getNotificationsByMember(user.id),
         getClasses(),
-        getTrainer(user.id),
+        getMemberTrainers(user.id),
       ]);
-      const filtered = classesRes.data.filter((c) => c.trainer_id === user.id);
-      const withCounts = await Promise.all(
-        filtered.map(async (c) => {
-          const bRes = await getBookingsByClass(c.class_id);
-          return { ...c, bookedCount: bRes.data.length };
-        })
-      );
-      setMyClasses(withCounts);
-      setProfile(profileRes.data);
+      setProfile(memberRes.data);
+      setBookings(bookingsRes.data);
+      setPayments(paymentsRes.data);
+      setNotifications(notificationsRes.data);
+      setAvailableClasses(classesRes.data);
+      setTrainers(trainersRes.data);
     } catch (err) {
       console.error(err);
     } finally {
@@ -39,162 +52,211 @@ function TrainerDashboard() {
   }
 
   useEffect(() => {
-    if (user) loadClasses();
+    if (user) loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  function handleRosterClose() {
-    setViewingRosterFor(null);
-    loadClasses();
+  async function handleBook(classId) {
+    setMessage('');
+    try {
+      await createBooking({ member_id: user.id, class_id: classId });
+      setMessage('Class booked successfully!');
+      loadData();
+    } catch (err) {
+      setMessage(err.response?.data?.error || 'Failed to book class.');
+    }
   }
 
-  function handleProfileSaved(updated) {
-    setProfile(updated);
-    setEditingProfile(false);
+  async function handleCancel(bookingId) {
+    try {
+      await cancelBooking(bookingId);
+      loadData();
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   function initials(first, last) {
     return `${(first || '')[0] || ''}${(last || '')[0] || ''}`.toUpperCase();
   }
 
-  if (loading) return <div className="trainer-dashboard"><p className="loading-text">Loading your dashboard...</p></div>;
+  if (loading) return <div className="member-dashboard"><p className="loading-text">Loading your dashboard...</p></div>;
 
-  const totalStudents = myClasses.reduce((sum, c) => sum + c.bookedCount, 0);
-  const totalCapacity = myClasses.reduce((sum, c) => sum + Number(c.capacity || 0), 0);
-  const fillRate = totalCapacity > 0 ? Math.round((totalStudents / totalCapacity) * 100) : 0;
+  const activeBookings = bookings.filter((b) => b.status === 'Booked');
+  const bookedIds = new Set(activeBookings.map((b) => b.class_id));
+  const unreadMessages = trainers.reduce((sum, t) => sum + (t.unread_count || 0), 0);
+  const pendingCount = payments.filter((p) => p.status === 'Pending').length;
 
-  const todayName = WEEK_DAYS[(new Date().getDay() + 6) % 7]; // JS Sunday=0 -> align to Monday-first week
-  const classesByDay = WEEK_DAYS.reduce((acc, day) => {
-    acc[day] = myClasses.filter((c) => c.schedule_day === day);
-    return acc;
-  }, {});
+  const remaining = daysUntil(profile?.membership_end_date);
+  let membershipLabel = 'No active membership yet';
+  let membershipClass = 'ms-none';
+  if (remaining !== null) {
+    if (remaining > 0) {
+      membershipLabel = `${remaining} day${remaining !== 1 ? 's' : ''} left`;
+      membershipClass = remaining <= 7 ? 'ms-warn' : 'ms-ok';
+    } else {
+      membershipLabel = 'Membership expired';
+      membershipClass = 'ms-expired';
+    }
+  }
+
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  const nextClass = activeBookings
+    .map((b) => {
+      const idx = WEEK_DAYS.indexOf(b.schedule_day);
+      return { ...b, offset: idx === -1 ? 99 : (idx - todayIdx + 7) % 7 };
+    })
+    .sort((a, b) => a.offset - b.offset)[0];
 
   return (
-    <div className="trainer-dashboard">
-      <div className="trainer-hero">
-        <div className="trainer-avatar">{initials(user.first_name, user.last_name)}</div>
-        <div className="trainer-hero-text">
-          <p className="trainer-hero-eyebrow">Trainer Dashboard</p>
+    <div className="member-dashboard">
+      <div className="member-hero">
+        <div className="member-avatar">{initials(user.first_name, user.last_name)}</div>
+        <div className="member-hero-text">
+          <p className="member-hero-eyebrow">Member Dashboard</p>
           <h1>Welcome back, {user.first_name}</h1>
-          <p className="trainer-hero-sub">
-            {myClasses.length === 0
-              ? "You don't have any classes assigned yet."
-              : `You're leading ${myClasses.length} class${myClasses.length > 1 ? 'es' : ''} with ${totalStudents} student${totalStudents !== 1 ? 's' : ''} booked in.`}
+          <p className="member-hero-sub">
+            <span className={`ms-dot ${membershipClass}`} /> {membershipLabel}
+            {profile?.membership_end_date ? ` · valid until ${profile.membership_end_date}` : ''}
           </p>
         </div>
-        <button className="btn-edit-profile" onClick={() => setEditingProfile(true)}>
-          Edit Profile
+        <button className="btn-pay-hero" onClick={() => setShowPaymentForm(true)}>
+          {remaining > 0 ? 'Renew Membership' : 'Pay for Membership'}
         </button>
       </div>
 
-      <div className="trainer-stats-grid">
-        <div className="trainer-stat-card">
+      {message && <p className="dashboard-message">{message}</p>}
+      {pendingCount > 0 && (
+        <p className="dashboard-message warn">
+          You have {pendingCount} payment{pendingCount > 1 ? 's' : ''} waiting for admin confirmation.
+          You'll get an email once your membership dates are set.
+        </p>
+      )}
+
+      <div className="member-stats-grid">
+        <div className="member-stat-card">
           <div className="stat-icon icon-blue">📅</div>
-          <div>
-            <h3>Your Classes</h3>
-            <p>{myClasses.length}</p>
-          </div>
+          <div><h3>Active Bookings</h3><p>{activeBookings.length}</p></div>
         </div>
-        <div className="trainer-stat-card">
-          <div className="stat-icon icon-green">🧑‍🤝‍🧑</div>
-          <div>
-            <h3>Students Booked</h3>
-            <p>{totalStudents}</p>
-          </div>
-        </div>
-        <div className="trainer-stat-card">
-          <div className="stat-icon icon-amber">📊</div>
-          <div>
-            <h3>Average Fill Rate</h3>
-            <p>{fillRate}%</p>
-          </div>
+        <Link to="/member/messages" className="member-stat-card linked">
+          <div className="stat-icon icon-green">💬</div>
+          <div><h3>Unread Messages</h3><p>{unreadMessages}</p></div>
+        </Link>
+        <Link to="/member/payments" className="member-stat-card linked">
+          <div className="stat-icon icon-amber">💳</div>
+          <div><h3>Payments Made</h3><p>{payments.length}</p></div>
+        </Link>
+        <div className="member-stat-card">
+          <div className="stat-icon icon-purple">🔔</div>
+          <div><h3>Notifications</h3><p>{notifications.length}</p></div>
         </div>
       </div>
 
-      <div className="dashboard-columns">
-        <div className="dashboard-main">
-          <div className="section-heading"><h2>Your Classes</h2></div>
-          {myClasses.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">🗓️</div>
-              <h3>No classes assigned yet</h3>
-              <p>Once an admin assigns you to a class, it will show up here with your student roster.</p>
-            </div>
-          ) : (
-            <div className="class-cards">
-              {myClasses.map((c) => {
-                const pct = c.capacity ? Math.min(Math.round((c.bookedCount / c.capacity) * 100), 100) : 0;
-                return (
+      <div className="home-grid">
+        <div className="home-main">
+          <section>
+            <div className="section-heading"><h2>Available Classes</h2></div>
+            {availableClasses.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">🗓️</div>
+                <h3>No classes available</h3>
+                <p>Check back soon — new classes will show up here.</p>
+              </div>
+            ) : (
+              <div className="class-cards">
+                {availableClasses.map((c) => (
                   <div key={c.class_id} className="class-card">
                     <div className="class-card-top">
                       <h3>{c.class_name}</h3>
-                      <span className={`day-badge ${c.schedule_day === todayName ? 'day-badge-today' : ''}`}>
-                        {c.schedule_day === todayName ? 'Today' : c.schedule_day}
-                      </span>
+                      <span className="day-badge">{c.schedule_day}</span>
                     </div>
                     <p className="class-time">🕒 {c.start_time} – {c.end_time}</p>
-
-                    <div className="capacity-block">
-                      <div className="capacity-labels">
-                        <span>{c.bookedCount} / {c.capacity} booked</span>
-                        <span>{pct}%</span>
-                      </div>
-                      <div className="capacity-bar">
-                        <div className="capacity-fill" style={{ width: `${pct}%` }} />
-                      </div>
-                    </div>
-
-                    <button className="btn-primary" onClick={() => setViewingRosterFor(c)}>
-                      View Roster
-                    </button>
+                    {bookedIds.has(c.class_id) ? (
+                      <button className="btn-booked" disabled>✓ Booked</button>
+                    ) : (
+                      <button className="btn-primary" onClick={() => handleBook(c.class_id)}>Book</button>
+                    )}
                   </div>
-                );
-              })}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </section>
+
+          <section>
+            <div className="section-heading"><h2>Your Bookings</h2></div>
+            {bookings.length === 0 ? (
+              <div className="empty-state small"><p>No bookings yet — book a class above to get started.</p></div>
+            ) : (
+              <table className="simple-table">
+                <thead><tr><th>Class</th><th>Day</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  {bookings.map((b) => (
+                    <tr key={b.booking_id}>
+                      <td>{b.class_name}</td>
+                      <td>{b.schedule_day}</td>
+                      <td><span className={`status-pill status-${b.status.toLowerCase()}`}>{b.status}</span></td>
+                      <td>
+                        {b.status === 'Booked' && (
+                          <button className="btn-delete" onClick={() => handleCancel(b.booking_id)}>Cancel</button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </section>
         </div>
 
-        <div className="dashboard-side">
+        <aside className="home-side">
           <div className="side-card">
-            <h3 className="side-card-title">Your Profile</h3>
-            <div className="profile-row"><span>Email</span><strong>{profile?.email || '—'}</strong></div>
-            <div className="profile-row"><span>Phone</span><strong>{profile?.phone || '—'}</strong></div>
-            <div className="profile-row"><span>Specialization</span><strong>{profile?.specialization || '—'}</strong></div>
-            <div className="profile-row"><span>Joined</span><strong>{profile?.hire_date || '—'}</strong></div>
+            <h3 className="side-card-title">Next Class</h3>
+            {nextClass ? (
+              <div className="next-class">
+                <strong>{nextClass.class_name}</strong>
+                <span>{nextClass.offset === 0 ? 'Today' : nextClass.schedule_day}</span>
+              </div>
+            ) : (
+              <p className="muted">Nothing booked yet.</p>
+            )}
           </div>
 
           <div className="side-card">
-            <h3 className="side-card-title">Weekly Schedule</h3>
-            <ul className="week-list">
-              {WEEK_DAYS.map((day) => (
-                <li key={day} className={day === todayName ? 'week-row-today' : ''}>
-                  <span className="week-day">{day}{day === todayName ? ' (Today)' : ''}</span>
-                  {classesByDay[day].length === 0 ? (
-                    <span className="week-empty">—</span>
-                  ) : (
-                    <span className="week-classes">
-                      {classesByDay[day].map((c) => c.class_name).join(', ')}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
+            <h3 className="side-card-title">Your Trainer{trainers.length > 1 ? 's' : ''}</h3>
+            {trainers.length === 0 ? (
+              <p className="muted">Book a class and its trainer will be assigned to you here.</p>
+            ) : (
+              trainers.map((t) => (
+                <div key={t.trainer_id} className="trainer-line">
+                  <div className="mini-avatar">{initials(t.first_name, t.last_name)}</div>
+                  <div>
+                    <strong>{t.first_name} {t.last_name}</strong>
+                    <span>{t.specialization || 'Trainer'}</span>
+                  </div>
+                </div>
+              ))
+            )}
+            {trainers.length > 0 && <Link to="/member/messages" className="side-link">Message your trainer →</Link>}
           </div>
-        </div>
+
+          <div className="side-card">
+            <h3 className="side-card-title">Notifications</h3>
+            {notifications.length === 0 ? (
+              <p className="muted">No notifications.</p>
+            ) : (
+              <ul className="notification-list compact">
+                {notifications.slice(0, 5).map((n) => <li key={n.notification_id}>{n.message}</li>)}
+              </ul>
+            )}
+          </div>
+        </aside>
       </div>
 
-      {viewingRosterFor && (
-        <RosterModal classItem={viewingRosterFor} onClose={handleRosterClose} />
-      )}
-
-      {editingProfile && profile && (
-        <TrainerProfileForm
-          trainer={profile}
-          onClose={() => setEditingProfile(false)}
-          onSaved={handleProfileSaved}
-        />
+      {showPaymentForm && (
+        <PaymentForm onClose={() => { setShowPaymentForm(false); loadData(); }} />
       )}
     </div>
   );
 }
 
-export default TrainerDashboard;
+export default MemberDashboard;

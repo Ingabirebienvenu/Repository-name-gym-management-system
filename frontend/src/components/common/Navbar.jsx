@@ -6,7 +6,6 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { role, user, logoutUser } = useAuth();
-  
 
   const adminLinks = [
     { path: '/admin', label: 'Dashboard' },
@@ -15,13 +14,22 @@ function Navbar() {
     { path: '/classes', label: 'Classes' },
     { path: '/payments', label: 'Payments' },
     { path: '/attendance', label: 'Attendance' },
+    { path: '/trainer/attendance', label: 'Attendance' },
   ];
   const trainerLinks = [
-  { path: '/trainer', label: 'Dashboard' },
-  { path: '/trainer/classes', label: 'Classes' },
-  { path: '/trainer/messages', label: 'Messages' },
+    { path: '/trainer', label: 'Dashboard' },
+    { path: '/trainer/classes', label: 'Classes' },
+    { path: '/trainer/messages', label: 'Messages' },
+    { path: '/trainer/attendance', label: 'Attendance' },
+    { path: '/member/attendance', label: 'Attendance' },
   ];
-  const memberLinks = [{ path: '/member', label: 'Dashboard' }];
+  const memberLinks = [
+    { path: '/member', label: 'Home' },
+    { path: '/member/progress', label: 'My Progress' },
+    { path: '/member/messages', label: 'Messages' },
+    { path: '/member/payments', label: 'Payments' },
+    { path: '/trainer/attendance', label: 'Attendance' },
+  ];
 
   const links = role === 'admin' ? adminLinks : role === 'trainer' ? trainerLinks : memberLinks;
 

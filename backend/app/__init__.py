@@ -20,6 +20,7 @@ def create_app():
     from app.routes.message_routes import message_bp
     from app.routes.progress_routes import progress_bp
     from app.routes.supplement_routes import supplement_bp
+    from app.routes.class_attendance_routes import class_attendance_bp
 
     app.register_blueprint(member_bp)
     app.register_blueprint(trainer_bp)
@@ -34,6 +35,7 @@ def create_app():
     app.register_blueprint(message_bp)
     app.register_blueprint(progress_bp)
     app.register_blueprint(supplement_bp)
+    app.register_blueprint(class_attendance_bp)
 
     @app.route('/')
     def index():

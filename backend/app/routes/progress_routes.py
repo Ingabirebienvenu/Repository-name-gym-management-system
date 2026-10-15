@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.progress_model import get_progress, add_progress, delete_progress
+from app.utils.notifier import notify_member, trainer_name
 
 progress_bp = Blueprint('progress_bp', __name__, url_prefix='/api/progress')
 
@@ -15,6 +16,23 @@ def create_progress():
     if not data.get('weight_kg') and not data.get('body_fat_percent') and not data.get('notes'):
         return jsonify({"error": "Provide at least one of weight_kg, body_fat_percent, or notes"}), 400
     new_id = add_progress(data)
+
+    name = trainer_name(data.get('trainer_id'))
+    weight = data.get('weight_kg')
+    fat = data.get('body_fat_percent')
+    notify_member(
+        data['member_id'],
+        subject="Your trainer logged new progress",
+        heading="New progress update",
+        intro=f"{name} just added a new progress entry for you. Log in to see your charts.",
+        rows=[
+            ("Date", data.get('log_date')),
+            ("Weight", f"{weight} kg" if weight else None),
+            ("Body fat", f"{fat}%" if fat else None),
+            ("Trainer's note", data.get('notes')),
+        ],
+        short_message=f"{name} logged a new progress update for you.",
+    )
     return jsonify({"message": "Progress logged", "progress_id": new_id}), 201
 
 @progress_bp.route('/<int:progress_id>', methods=['DELETE'])

@@ -74,3 +74,39 @@ def mark_conversation_read(trainer_id, member_id, reader):
     cursor.close()
     conn.close()
     return affected
+
+
+def get_member_trainers(member_id):
+    """Trainers assigned to this member = trainers of classes the member has booked.
+    Includes unread count (trainer messages the member hasn't read) and last message."""
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT DISTINCT t.trainer_id, t.first_name, t.last_name, t.email, t.phone, t.specialization
+        FROM class_bookings cb
+        JOIN classes c ON cb.class_id = c.class_id
+        JOIN trainers t ON c.trainer_id = t.trainer_id
+        WHERE cb.member_id = %s AND cb.status IN ('Booked', 'Attended')
+        ORDER BY t.first_name
+    """, (member_id,))
+    trainers = cursor.fetchall()
+
+    for t in trainers:
+        cursor.execute("""
+            SELECT COUNT(*) AS c FROM messages
+            WHERE trainer_id = %s AND member_id = %s AND sender = 'trainer' AND is_read = FALSE
+        """, (t['trainer_id'], member_id))
+        t['unread_count'] = cursor.fetchone()['c']
+
+        cursor.execute("""
+            SELECT message, sent_at FROM messages
+            WHERE trainer_id = %s AND member_id = %s
+            ORDER BY sent_at DESC, message_id DESC LIMIT 1
+        """, (t['trainer_id'], member_id))
+        last = cursor.fetchone()
+        t['last_message'] = last['message'] if last else None
+        t['last_sent_at'] = str(last['sent_at']) if last else None
+
+    cursor.close()
+    conn.close()
+    return trainers
