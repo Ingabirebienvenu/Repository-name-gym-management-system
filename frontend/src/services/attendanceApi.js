@@ -3,6 +3,8 @@ import api from './api';
 // Trainer: roster of a class for one date, with any status already recorded
 export const getClassRoster = (classId, date) =>
   api.get('/class-attendance/roster', { params: { class_id: classId, date } });
+// Classes list (used by the trainer page and the admin panel)
+export const getClassList = () => api.get('/classes');
 
 // Trainer: save attendance for one session
 export const saveClassAttendance = (data) => api.post('/class-attendance', data);

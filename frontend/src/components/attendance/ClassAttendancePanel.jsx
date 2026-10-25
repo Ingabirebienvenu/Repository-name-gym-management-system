@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getClasses } from '../../services/api';
-import { getAllClassAttendance } from '../../services/attendanceApi';
+import { getAllClassAttendance, getClassList } from '../../services/attendanceApi';
 import './ClassAttendancePanel.css';
 
 const ICON = { Present: '✓', Late: '◷', Absent: '✕' };
@@ -12,7 +11,7 @@ function ClassAttendancePanel() {
   const [filters, setFilters] = useState({ class_id: '', status: '', date_from: '', date_to: '' });
 
   useEffect(() => {
-    getClasses().then((res) => setClasses(res.data)).catch(console.error);
+    getClassList().then((res) => setClasses(res.data)).catch(console.error);
   }, []);
 
   useEffect(() => {

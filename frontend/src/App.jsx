@@ -2,8 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Navbar from './components/common/Navbar';
-import TrainerAttendance from './pages/TrainerAttendance';
-import MemberAttendance from './pages/MemberAttendance';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -16,10 +14,12 @@ import Attendance from './pages/Attendance';
 import TrainerDashboard from './pages/TrainerDashboard';
 import TrainerClasses from './pages/TrainerClasses';
 import TrainerMessages from './pages/TrainerMessages';
+import TrainerAttendance from './pages/TrainerAttendance';
 import MemberDashboard from './pages/MemberDashboard';
 import MemberProgress from './pages/MemberProgress';
 import MemberMessages from './pages/MemberMessages';
 import MemberPayments from './pages/MemberPayments';
+import MemberAttendance from './pages/MemberAttendance';
 
 import './styles/App.css';
 
@@ -53,17 +53,16 @@ function AppRoutes() {
       <Route path="/trainer" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerDashboard /></ProtectedRoute>} />
       <Route path="/trainer/classes" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerClasses /></ProtectedRoute>} />
       <Route path="/trainer/messages" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerMessages /></ProtectedRoute>} />
+      <Route path="/trainer/attendance" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerAttendance /></ProtectedRoute>} />
 
       <Route path="/member" element={<ProtectedRoute allowedRoles={['member']}><MemberDashboard /></ProtectedRoute>} />
       <Route path="/member/progress" element={<ProtectedRoute allowedRoles={['member']}><MemberProgress /></ProtectedRoute>} />
       <Route path="/member/messages" element={<ProtectedRoute allowedRoles={['member']}><MemberMessages /></ProtectedRoute>} />
       <Route path="/member/payments" element={<ProtectedRoute allowedRoles={['member']}><MemberPayments /></ProtectedRoute>} />
+      <Route path="/member/attendance" element={<ProtectedRoute allowedRoles={['member']}><MemberAttendance /></ProtectedRoute>} />
 
       <Route path="/" element={<Navigate to={role ? `/${role}` : '/login'} replace />} />
       <Route path="*" element={<Navigate to={role ? `/${role}` : '/login'} replace />} />
-
-      <Route path="/trainer/attendance" element={<ProtectedRoute allowedRoles={['trainer']}><TrainerAttendance /></ProtectedRoute>} />
-      <Route path="/member/attendance" element={<ProtectedRoute allowedRoles={['member']}><MemberAttendance /></ProtectedRoute>} />
     </Routes>
   );
 }

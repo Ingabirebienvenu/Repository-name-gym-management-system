@@ -14,21 +14,19 @@ function Navbar() {
     { path: '/classes', label: 'Classes' },
     { path: '/payments', label: 'Payments' },
     { path: '/attendance', label: 'Attendance' },
-    { path: '/trainer/attendance', label: 'Attendance' },
   ];
   const trainerLinks = [
     { path: '/trainer', label: 'Dashboard' },
     { path: '/trainer/classes', label: 'Classes' },
-    { path: '/trainer/messages', label: 'Messages' },
     { path: '/trainer/attendance', label: 'Attendance' },
-    { path: '/member/attendance', label: 'Attendance' },
+    { path: '/trainer/messages', label: 'Messages' },
   ];
   const memberLinks = [
     { path: '/member', label: 'Home' },
     { path: '/member/progress', label: 'My Progress' },
+    { path: '/member/attendance', label: 'Attendance' },
     { path: '/member/messages', label: 'Messages' },
     { path: '/member/payments', label: 'Payments' },
-    { path: '/trainer/attendance', label: 'Attendance' },
   ];
 
   const links = role === 'admin' ? adminLinks : role === 'trainer' ? trainerLinks : memberLinks;
