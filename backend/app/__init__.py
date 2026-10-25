@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from app.config import Config
+from app.routes.member_profile_routes import member_profile_bp
 
 def create_app():
     app = Flask(__name__)
@@ -36,6 +37,7 @@ def create_app():
     app.register_blueprint(progress_bp)
     app.register_blueprint(supplement_bp)
     app.register_blueprint(class_attendance_bp)
+    app.register_blueprint(member_profile_bp)
 
     @app.route('/')
     def index():

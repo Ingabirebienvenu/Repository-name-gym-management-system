@@ -27,6 +27,7 @@ function Navbar() {
     { path: '/member/attendance', label: 'Attendance' },
     { path: '/member/messages', label: 'Messages' },
     { path: '/member/payments', label: 'Payments' },
+    { path: '/member/profile', label: 'Profile' },
   ];
 
   const links = role === 'admin' ? adminLinks : role === 'trainer' ? trainerLinks : memberLinks;
