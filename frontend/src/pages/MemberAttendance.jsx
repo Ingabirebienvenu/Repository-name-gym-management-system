@@ -156,4 +156,4 @@ function MemberAttendance() {
   );
 }
 
-export default MemberAttendance;s
+export default MemberAttendance;
