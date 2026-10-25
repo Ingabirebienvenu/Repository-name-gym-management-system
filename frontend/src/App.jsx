@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Navbar from './components/common/Navbar';
+import MemberProfile from './pages/MemberProfile';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -63,6 +64,7 @@ function AppRoutes() {
 
       <Route path="/" element={<Navigate to={role ? `/${role}` : '/login'} replace />} />
       <Route path="*" element={<Navigate to={role ? `/${role}` : '/login'} replace />} />
+      <Route path="/member/profile" element={<ProtectedRoute allowedRoles={['member']}><MemberProfile /></ProtectedRoute>} />
     </Routes>
   );
 }
