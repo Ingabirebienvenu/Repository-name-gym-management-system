@@ -106,20 +106,20 @@ function TrainerDashboard() {
 
       {/* ---------- KPI row ---------- */}
       <div className="ts-kpi-grid">
-        <Kpi icon="📅" tone="blue" label="Classes" value={t.classes}
+        <Kpi icon="" tone="blue" label="Classes" value={t.classes}
              caption={todaysClasses.length ? `${todaysClasses.length} today` : 'None today'} />
-        <Kpi icon="🧑‍🤝‍🧑" tone="green" label="Members coached" value={t.members}
+        <Kpi icon="" tone="green" label="Members coached" value={t.members}
              caption={`${t.active_bookings} active booking${t.active_bookings !== 1 ? 's' : ''}`} />
-        <Kpi icon="📊" tone="amber" label="Average fill rate" value={`${t.fill_rate}%`}>
+        <Kpi icon="" tone="amber" label="Average fill rate" value={`${t.fill_rate}%`}>
           <div className="ts-meter" role="img" aria-label={`Fill rate ${t.fill_rate} percent`}>
             <div className="ts-meter-fill" style={{ width: `${Math.min(t.fill_rate, 100)}%` }} />
           </div>
         </Kpi>
-        <Kpi icon="✅" tone="teal" label="Attendance rate" value={`${t.attendance_rate}%`}
+        <Kpi icon="" tone="teal" label="Attendance rate" value={`${t.attendance_rate}%`}
              caption="Attended of active bookings" />
-        <Kpi icon="💬" tone="violet" label="Unread messages" value={t.unread_messages}
+        <Kpi icon="" tone="violet" label="Unread messages" value={t.unread_messages}
              caption={t.unread_messages ? 'Reply now →' : 'All caught up'} to="/trainer/messages" />
-        <Kpi icon="📝" tone="rose" label="Coaching, last 30 days" value={t.progress_30d + t.supplements_30d}
+        <Kpi icon="" tone="rose" label="Coaching, last 30 days" value={t.progress_30d + t.supplements_30d}
              caption={`${t.progress_30d} progress · ${t.supplements_30d} supplement tips`} />
       </div>
 

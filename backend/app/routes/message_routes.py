@@ -4,7 +4,7 @@ from app.models.message_model import (
     get_conversation, send_message, mark_conversation_read,
     get_member_trainers
 )
-from app.utils.notifier import notify_member, trainer_name, unread_trainer_messages
+from app.utils.notifier import notify_member, trainer_name
 
 message_bp = Blueprint('message_bp', __name__, url_prefix='/api/messages')
 
@@ -29,16 +29,10 @@ def add_message():
     if data.get('sender') not in ('trainer', 'member'):
         return jsonify({"error": "sender must be 'trainer' or 'member'"}), 400
 
-    # Email the member about a trainer message, but only for the FIRST unread one,
-    # so a long chat doesn't flood their inbox.
-    should_email = (
-        data['sender'] == 'trainer'
-        and unread_trainer_messages(data['trainer_id'], data['member_id']) == 0
-    )
-
     new_id = send_message(data['trainer_id'], data['member_id'], data['sender'], data['message'])
 
-    if should_email:
+    # Every message a trainer sends is also emailed to the member.
+    if data['sender'] == 'trainer':
         name = trainer_name(data['trainer_id'])
         preview = data['message'] if len(data['message']) <= 200 else data['message'][:200] + '...'
         notify_member(

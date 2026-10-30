@@ -39,7 +39,7 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">🏋️ Gym Manager</div>
+      <div className="navbar-brand">Your Gym Manager</div>
       <ul className="navbar-links">
         {links.map((link) => (
           <li key={link.path}>

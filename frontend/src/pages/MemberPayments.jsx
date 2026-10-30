@@ -145,11 +145,11 @@ function MemberPayments() {
 
         <div className="pay-summary">
           <div className="member-stat-card">
-            <div className="stat-icon icon-green">✅</div>
+            <div className="stat-icon icon-green"></div>
             <div><h3>Total Paid</h3><p>{totalPaid.toLocaleString()} RWF</p></div>
           </div>
           <div className="member-stat-card">
-            <div className="stat-icon icon-amber">⏳</div>
+            <div className="stat-icon icon-amber"></div>
             <div><h3>Pending</h3><p>{pending.length}</p></div>
           </div>
         </div>

@@ -135,19 +135,19 @@ function MemberDashboard() {
 
       <div className="member-stats-grid">
         <div className="member-stat-card">
-          <div className="stat-icon icon-blue">📅</div>
+          <div className="stat-icon icon-blue"></div>
           <div><h3>Active Bookings</h3><p>{activeBookings.length}</p></div>
         </div>
         <Link to="/member/messages" className="member-stat-card linked">
-          <div className="stat-icon icon-green">💬</div>
+          <div className="stat-icon icon-green"></div>
           <div><h3>Unread Messages</h3><p>{unreadMessages}</p></div>
         </Link>
         <Link to="/member/payments" className="member-stat-card linked">
-          <div className="stat-icon icon-amber">💳</div>
+          <div className="stat-icon icon-amber"></div>
           <div><h3>Payments Made</h3><p>{payments.length}</p></div>
         </Link>
         <div className="member-stat-card">
-          <div className="stat-icon icon-purple">🔔</div>
+          <div className="stat-icon icon-purple"></div>
           <div><h3>Notifications</h3><p>{notifications.length}</p></div>
         </div>
       </div>

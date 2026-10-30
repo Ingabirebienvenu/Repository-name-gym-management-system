@@ -41,6 +41,7 @@ def _send(member_id, subject, heading, intro, rows, closing, short_message, noti
     try:
         member = _member_contact(member_id)
         if not member:
+            print(f"[email] {subject} -> member {member_id} not found, nothing sent")
             return
         if in_app and short_message:
             create_notification({
@@ -50,7 +51,10 @@ def _send(member_id, subject, heading, intro, rows, closing, short_message, noti
             })
         if member.get("email"):
             intro_text = f"Hi {member['first_name']}, {intro}"
-            send_email(member["email"], subject, build_email(heading, intro_text, rows, closing))
+            ok = send_email(member["email"], subject, build_email(heading, intro_text, rows, closing))
+            print(f"[email] {subject} -> {member['email']} : {'SENT' if ok else 'FAILED'}")
+        else:
+            print(f"[email] {subject} -> member {member_id} has no email address, nothing sent")
     except Exception as e:  # never let a notification break the real request
         print(f"Notification failed for member {member_id}: {e}")
 
